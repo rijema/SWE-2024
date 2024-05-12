@@ -1,0 +1,151 @@
+import {
+  createConnection,
+  Connection,
+  Schema,
+  Model,
+} from 'mongoose';
+import { DatabaseConnectionError } from '../errors/database-connection-error';
+import { ServiceName } from '../models/service-name';
+import { TenantDoc, TenantSchema } from '../models/tenant';
+import { logger } from '../util/logger';
+import { TenantType } from '../models/tenant-type';
+
+const mongoOptions = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  poolSize: 300,
+  connectTimeoutMS: 60000,
+};
+
+// Cria conexão a partir de um URI
+const connect = async (mongoUri: any, tenant: string, database: string) => {
+  if (mongoUri) {
+    try {
+      const connection = await createConnection(mongoUri, mongoOptions);
+      console.log(
+        `[ms-common:mongo] Conexão com o MongoDB criada com sucesso para ${database} do tenant ${tenant}.`
+      );
+      return connection;
+    } catch (err) {
+      logger.error(
+        `[ms-common:mongo] Falha ao conectar com o MongoDB do tenant ${tenant} do ${database}. Error: ${err}`
+      );
+      throw new DatabaseConnectionError();
+    }
+  } else {
+    throw new DatabaseConnectionError();
+  }
+};
+
+export interface IMongoWrapper {
+  connectToMongo: (
+    serviceName: ServiceName
+  ) => Promise<TenantDoc[] | undefined>;
+  getModel: <T>(
+    tenant: string,
+    modelName: string,
+    modelSchema: Schema<T>
+  ) => Model<any, {}, {}> | Model<T, {}, {}>;
+  getTenants: (saasConfDb: Connection) => Promise<TenantDoc[]>;
+}
+
+class MongoWrapper implements IMongoWrapper {
+  connectMongo = (mongoUri: any) => {
+    if (mongoUri) {
+      return createConnection(mongoUri, mongoOptions);
+    } else {
+      throw new DatabaseConnectionError();
+    }
+  };
+
+  // Map de conexões (tenant -> conexão)
+  private _tenantConnections: Map<string, Connection> = new Map<
+    string,
+    Connection
+  >();
+
+  /**
+   * Verifica se existe o Tenants
+   */
+  hasTenant(tenant: string) {
+    let result = false;
+    const tenants = Object.values(TenantType);
+    tenants.forEach((value, index) => {
+      if (tenant === value) {
+        result = true;
+      }
+    });
+    return result;
+  }
+
+  get tenantConnections() {
+    if (this._tenantConnections.size === 0) {
+      throw new DatabaseConnectionError();
+    } else {
+      return this._tenantConnections;
+    }
+  }
+
+  // Conecta com o banco saas_conf e recupera as informações para cada tenant
+  async connectToMongo(serviceName: ServiceName) {
+    let tenants: TenantDoc[];
+    try {
+      console.log(`[ms-common:mongo] Criando conexão com o saasConf.`);
+      const saasConfDb = await connect(process.env.MONGO_URI, '', 'saasConf');
+      tenants = await this.getTenants(saasConfDb);
+      console.log(
+        `[ms-common:mongo] Conexão conectado para os tenants: ${JSON.stringify(
+          tenants.map((t) => t.name)
+        )}`
+      );
+      for (let tenant of tenants) {
+        let tenantConnection;
+
+        if (serviceName === ServiceName.crud) {
+          tenantConnection = await connect(
+            tenant.crudUri,
+            tenant.name,
+            'user'
+          );
+        } else {
+          throw new DatabaseConnectionError();
+        }
+
+        console.log(
+          `[ms-common:mongo] Conectado ao DB no tenant: ${tenant.name} do serviço ${serviceName}.`
+        );
+        this._tenantConnections.set(tenant.name, tenantConnection);
+      }
+      return tenants;
+    } catch (err) {
+      logger.error(
+        `[ms-common:mongo] Erro ao conectar com Mongo no serviceName ${serviceName}`,
+        err
+      );
+    }
+  }
+
+  // Retorna um Model para a conexão do tenant
+  getModel<T>(tenant: string, modelName: string, modelSchema: Schema<T>) {
+    let tenantConn = this._tenantConnections.get(tenant);
+    if (tenantConn) {
+      return tenantConn.models[modelName]
+        ? tenantConn.models[modelName]
+        : tenantConn.model<T>(modelName, modelSchema);
+    } else {
+      throw new Error(
+        `[ms-common:mongo] Erro ao tentar recuperar tenant ${tenant}`
+      );
+    }
+  }
+
+  // Recupera tenants
+  async getTenants(saasConfDb: Connection) {
+    const Tenant = await saasConfDb.model<TenantDoc>('Tenant', TenantSchema);
+    const tenants = await Tenant.find({});
+    return tenants;
+  }
+}
+
+export const mongoWrapper = new MongoWrapper();
