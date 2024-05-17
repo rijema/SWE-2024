@@ -1,0 +1,11 @@
+{
+  "bad-request": {
+    "resource-not-found": "Resource not found!"
+  },
+  "user": {
+    "required": {
+      "name": "Name is a required field.",
+      "cpf": "Cpf is a required field."
+    }
+  }
+}
