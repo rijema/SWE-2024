@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CreateClient from "./pages/CreateClient";
 import UserSerach from "./pages/UserSearch";
 import Login_Cliente from "./pages/Login_Cliente.jsx";
+import Login_Empresa from "./pages/Login_Empresa.jsx";
 
 function App() {
   return (
@@ -18,7 +19,9 @@ function App() {
         <Routes>
           <Route exact path="/login_client" element={<Login_Cliente/>} />
         </Routes>
-
+        <Routes>
+          <Route exact path="/login_empresa" element={<Login_Empresa /> } />
+        </Routes>
       </Router>
     </div>
   );
