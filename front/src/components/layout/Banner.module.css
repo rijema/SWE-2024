@@ -1,8 +1,13 @@
-.banner{
-    background-color: #008B8B;
-    color: white;
-    font-size: 20px;
-    padding: 1px;
-    margin: 0;
-    text-align: center;
+.banner {
+  background-color: #008b8b;
+  color: white;
+  font-size: 20px;
+  padding: 1px;
+  margin: 0;
+  width: auto;
+  height: 80px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
