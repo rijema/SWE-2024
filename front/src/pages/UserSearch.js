@@ -3,24 +3,24 @@ import Row from "../components/row/Row.js";
 import Input from "../components/form/Input.js";
 import { users } from "../data/data.js";
 import Banner from "../components/layout/Banner.js";
+import SubmitButton from "../components/form/SubmitButton.js";
+import styles from './UserSearch.module.css'
 
 export default function UserSearch() {
-  const [people, setPeople] = useState([]); //esse estado básicamente está sendo usado para carregar inicialmetne no useEffect
-  const [person, setPerson] = useState(null); //está sendo usado na função aoAlterado para retornar se existe ou não essa pessoa
-  const [valor, setValor] = useState(""); //esse valor está sendo usado no input, consequentemente vai ser usado na função aoALterado
+  const [people, setPeople] = useState([]);
+  const [person, setPerson] = useState(null);
+  const [valor, setValor] = useState("");
+  const [editingPerson, setEditingPerson] = useState(null);
 
   useEffect(() => {
     setPeople(users);
   }, []);
 
-  //ESSA FUNÇÃO VAI PERCORRER O ID E COLOCAR NO SETPEOPLE OS QUE NÃO FORAM CLICADOS.
-  // aqui nesssa função qnd for para o back end deve ir na rota delete do ID, mas aqui pode ser feito de uma forma para salvar o json, mas é um trabalho a mais.
   function aoClicado(id) {
     const filteredPeople = people.filter((person) => person.id !== id);
     setPeople(filteredPeople);
   }
 
-  //ESSA FUNÇÃO ESTÁ BUSCANDO PELO CPF QUE EXISTE, E VAI COLOCAR NO SETPESSOA SE FOR ENCONTRADA
   function aoAlterado(e) {
     const inputValue = e.target.value;
     setValor(inputValue);
@@ -35,6 +35,22 @@ export default function UserSearch() {
     }
   }
 
+  function aoEditado(id) {
+    const personToEdit = people.find((person) => person.id === id);
+    setEditingPerson(personToEdit);
+  }
+
+  function atualizarCliente() {
+    const updatedPeople = people.map((person) => {
+      if (person.id === editingPerson.id) {
+        return editingPerson;
+      }
+      return person;
+    });
+    setPeople(updatedPeople);
+    setEditingPerson(null); // Limpa o estado de edição após a atualização
+  }
+
   const listUsers = people.map((person) => (
     <Row
       key={person.id}
@@ -43,70 +59,102 @@ export default function UserSearch() {
       phone={person.phone}
       birthday={person.birthday}
       aoClicado={() => aoClicado(person.id)}
+      aoEditado={() => aoEditado(person.id)} // Passa a função aoEditado para o componente Row
     />
   ));
 
   return (
     <div>
       <div>
-        <Banner text={"Busca de usuário"} />
-      </div>
-      <div className="flex flex-col justify-center items-center w-full h-full border-2 ">
-        <div className=" w-5/6 mt-8 flex flex-col justify-center items-center border-black px-9 py-9 bg-slate-300 rounded-2xl">
-          <section className=" flex flex-col w-full">
-            <label>BUSCAR USUÁRIO </label>
-            <input
-              type="text"
-              onChange={aoAlterado}
-              value={valor}
-              placeholder="DIGITE O CPF"
-              className=" rounded-md px-2"
-            ></input>
-          </section>
+        <Banner text={"Clientes"} />
+        <div className={`${styles.card} ${editingPerson ? styles.editing : ""}`}> {/* Adiciona a classe "editing" se está no modo de edição */}
+          <div className={styles.inputLeft}>
+            {editingPerson ? null : ( // Oculta o campo de busca se existe uma pessoa em edição
+              <Input
+                type="text"
+                text="BUSCAR CLIENTE:"
+                placeholder="Digite o CPF"
+                handleOnChange={aoAlterado}
+                value={valor}
+              />
+            )}
+          </div>
+
           <section className=" w-full">
-            <table className="w-full mt-2 mb-2 bg-gray-50  flex items-center">
-              <td
-                className="flex justify-center  border-r-2"
-                style={{ width: "35%" }}
-              >
-                NOME
-              </td>
-              <td
-                className="flex justify-center  border-r-2"
-                style={{ width: "15%" }}
-              >
-                CPF
-              </td>
-              <td
-                className="flex justify-center  border-r-2"
-                style={{ width: "15%" }}
-              >
-                PHONE
-              </td>
-              <td
-                className="flex justify-center  border-r-2"
-                style={{ width: "15%" }}
-              >
-                NASCIMENTO
-              </td>
-              <td
-                className="flex justify-center border-r-2"
-                style={{ width: "20%" }}
-              ></td>
-            </table>
+            {editingPerson ? null : ( // Oculta o cabeçalho da tabela se existe uma pessoa em edição
+              <table className="w-full mt-2 mb-2 bg-gray-50  flex items-center">
+                <td className={styles.cabecario} style={{ width: "35%" }}>
+                  NOME
+                </td>
+                <td className={styles.cabecario} style={{ width: "15%" }}>
+                  CPF
+                </td>
+                <td className={styles.cabecario} style={{ width: "15%" }}>
+                  TELEFONE
+                </td>
+                <td className={styles.cabecario} style={{ width: "15%" }}>
+                  NASCIMENTO
+                </td>
+                <td
+                  className={styles.cabecario}
+                  style={{ width: "20%", backgroundColor: "#FFFFFF", color: "#FFFFFF" }}
+                >
+                  empty
+                </td>
+              </table>
+            )}
           </section>
 
           <section className=" w-full">
-            {person ? ( //SE PESSOA EXISTE, QUE FOI ENCONTRADO NA FUNÇÃO AOALTERATO, VAI MOSTRAR APENAS ELE, SE NÃO, IRÁ MOSTRAR A LSITA COMPLETA
+            {editingPerson ? ( // Se existe uma pessoa em edição, mostra o formulário de edição
               <div>
-                <Row
-                  name={person.name}
-                  cpf={person.cpf}
-                  phone={person.phone}
-                  birthday={person.birthday}
-                  aoClicado={() => aoClicado(person.id)}
+                <div className={styles.inputContainer}>
+                  <Input
+                    type="text"
+                    text="Nome"
+                    placeholder="Digite o nome"
+                    handleOnChange={(e) => setEditingPerson({ ...editingPerson, name: e.target.value })}
+                    value={editingPerson.name}
+                  />
+                </div>
+                <div className={styles.inputContainer}>
+                  <Input
+                    type="text"
+                    text="CPF"
+                    placeholder="Digite o CPF"
+                    handleOnChange={(e) => setEditingPerson({ ...editingPerson, cpf: e.target.value })}
+                    value={editingPerson.cpf}
+                  />
+                </div>
+                <div className={styles.inputContainer}>
+                <Input
+                  type="text"
+                  text="Telefone"
+                  placeholder="Digite o telefone"
+                  handleOnChange={(e) => setEditingPerson({ ...editingPerson, phone: e.target.value })}
+                  value={editingPerson.phone}
                 />
+                </div>
+                <div className={styles.inputContainer}>
+                  <Input
+                    type="date"
+                    text="Data de Nascimento"
+                    placeholder="Selecione a data de nascimento"
+                    handleOnChange={(e) => setEditingPerson({ ...editingPerson, birthday: e.target.value })}
+                    value={editingPerson.birthday}
+                  />
+                </div>
+            
+                <SubmitButton text="Atualizar" onClick={atualizarCliente} />
               </div>
+            ) : person ? ( // Se existe uma pessoa encontrada, mostra apenas ela
+              <Row
+                name={person.name}
+                cpf={person.cpf}
+                phone={person.phone}
+                birthday={person.birthday}
+                aoClicado={() => aoClicado(person.id)}
+              />
             ) : (
               <ul>{listUsers}</ul>
             )}

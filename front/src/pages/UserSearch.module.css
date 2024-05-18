@@ -1,0 +1,40 @@
+.card {
+    width: 1200px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto; 
+    border: 2px solid #ccc;
+    border-radius: 10px;
+  }
+  
+  .editing {
+    width: 600px;
+    height: 500px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto; 
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    text-align: center; 
+  }
+
+.cabecario {
+
+    background-color: #2F4F4F; 
+    color: white; 
+    text-align: center; 
+    border: 1px solid white; 
+  }
+  
+
+  .inputLeft{
+    display: flex;
+  align-items: flex-start; 
+  text-align: left; 
+}
+
+  .inputContainer{
+    width: 330px;
+    margin: 10px auto; 
+  }
+  

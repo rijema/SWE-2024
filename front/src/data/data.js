@@ -71,10 +71,10 @@ export const users = [
   },
   {
     id: 10,
-    name: "Lando Calrissian",
+    name: "Lionel Messi",
     cpf: "123.456.789-10",
-    phone: "(11) 1234-5678",
-    birthday: new Date("1937/04/06"),
+    phone: "(81) 8230-3717",
+    birthday: new Date("1987/06/24"),
   },
   {
     id: 11,

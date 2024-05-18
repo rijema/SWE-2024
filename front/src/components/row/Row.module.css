@@ -1,0 +1,25 @@
+
+/* Row.module.css */
+/* styles.module.css */
+
+.tabela {
+    background-color: #008B8B;
+    color: white;
+    border: 1px solid white;
+  }
+  
+  .tabela td, .tabela th {
+    border: 1px solid white; /* Adiciona bordas em branco em todas as células */
+  }
+  .tabela:hover {
+    background-color: #20B2AA;
+  }
+  
+  .rowCell {
+    background-color: #008B8B; /* Define a cor de fundo da célula */
+    color: white; /* Define a cor do texto como branco */
+  }
+  
+  .rowCell:hover {
+    background-color: #20B2AA; /* Define a cor de fundo ao passar o mouse */
+  }
