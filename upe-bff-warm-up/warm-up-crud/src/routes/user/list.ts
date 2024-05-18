@@ -8,7 +8,7 @@ import { UserSchema, UserDoc } from '../../models/user';
 const router = express.Router();
 
 /**
- * Lista as Etapas por instância
+ * Listar
  */
 router.get(
   '/api/users',

@@ -11,7 +11,7 @@ import { UserDoc, UserSchema } from '../../models/user';
 const router = express.Router();
 
 /**
- * Remover a Etapa
+ * Remover
  */
 router.delete(
   '/api/crud/users/:userId',

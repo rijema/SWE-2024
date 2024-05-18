@@ -14,7 +14,7 @@ import { getMessage } from '../../util/util';
 const router = express.Router();
 
 /**
- * Criar a Etapa
+ * Criar
  */
 router.put(
   '/api/crud/users',

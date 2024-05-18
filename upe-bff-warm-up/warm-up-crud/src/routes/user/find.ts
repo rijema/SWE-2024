@@ -11,7 +11,7 @@ import { UserDoc, UserSchema } from '../../models/user';
 const router = express.Router();
 
 /**
- * Report uma Etapa pelo Id
+ * Usuário Id
  */
 router.get(
   '/api/crud/users/:userId',

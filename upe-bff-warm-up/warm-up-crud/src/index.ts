@@ -10,7 +10,6 @@ import { readFileSync } from 'fs';
 
 import { app } from './app';
 
-app.locals.readiness = false;
 
 let privateKey;
 let certificate;
@@ -69,7 +68,6 @@ const start = async () => {
     );
   });
 
-  app.locals.readiness = true;
 };
 
 start();

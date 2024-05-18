@@ -13,7 +13,7 @@ import { UserDoc, UserSchema } from '../../models/user';
 const router = express.Router();
 
 /**
- * Atualiza a Etapa
+ * Atualizar
  */
 router.post(
   '/api/crud/users/:userId',

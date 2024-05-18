@@ -33,13 +33,14 @@ require('dotenv').config();
 
 const app = express();
 app.set('trust proxy', true);
-// Correção de segurança
+
+//segurança
 app.use(helmet());
 app.use(json());
 app.use(cors());
 
 if (process.env.NODE_ENV != 'local') {
-  //Define para colocar no LOG as informações de origem: DATA, METHOD, API, ORIGEM
+  //Define para colocar no LOG
   app.use(morgan('combined', { stream: loggerWrite }));
 }
 // Autenticação com JWT
@@ -79,7 +80,7 @@ app.use(onlineRouter);
 app.use(authRouter);
 
 // Interceptor que extrai tenant do Token
-// app.use(tenantInterceptor);e
+// app.use(tenantInterceptor);
 
 // Endpoints de Negócio
 app.use(listUserRouter);

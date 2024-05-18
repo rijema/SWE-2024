@@ -19,7 +19,7 @@ router.get(
       if(name === 'admin' ){ 
 
         const id = 1; //id do banco
-        const token = jwt.sign({ id, tenant: 'upe' }, 'my-secret-token-to-change-in-production', {
+        const token = jwt.sign({ id, tenant: 'upe' }, 'my-secret-token', {
           expiresIn: 3600 // 1 hora
         });
         return res.json({ auth: true, token: token });
