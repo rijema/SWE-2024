@@ -7,7 +7,7 @@ import { i18n } from './i18n';
  * @returns
  */
 export function getMessage(req: any, key: string) {
-  let language = getUserLanguage(req);
+  let language = 'pt-br';
   return i18n.t(key, {
     ns: 'errors',
     lng: language,

@@ -16,15 +16,15 @@ import {
 
 import { onlineRouter } from './routes/online';
 
-import { listUserRouter } from './routes/list';
-import { deleteUserRouter } from './routes/delete';
-import { newUserRouter } from './routes/new';
-import { updateUserRouter } from './routes/update';
+import { listUserRouter } from './routes/user/list';
+import { deleteUserRouter } from './routes/user/delete';
+import { newUserRouter } from './routes/user/new';
+import { updateUserRouter } from './routes/user/update';
 import i18nextMiddleware from 'i18next-http-middleware';
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import { authRouter } from './routes/auth';
-import { findUserRouter } from './routes/find';
+import { findUserRouter } from './routes/user/find';
 import { healthcheckRoutes } from './app.constants';
 
 import { i18n } from './util/i18n';

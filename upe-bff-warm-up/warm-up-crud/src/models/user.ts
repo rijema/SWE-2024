@@ -41,7 +41,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       description: 'Telefone',
       minLength: [10, "Telefone com no minímo 10 dígitos"],
-      maxLength: [11, "Telefone com no minímo 11 dígitos"],
+      maxLength: [11, "Telefone com no máximo 11 dígitos"],
       match: [/\d{10}/, "O telefone só pode contar números"]
     },    
     birthday: {
