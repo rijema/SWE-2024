@@ -106,7 +106,6 @@ mongodb
 build
 .env.local
 
-*.js
 *.d.ts
 !send-email-controller.js
 
