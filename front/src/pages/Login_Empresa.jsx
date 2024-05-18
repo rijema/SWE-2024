@@ -4,49 +4,47 @@ import styles from "./CreateClient.module.css";
 import Banner from "../components/layout/Banner";
 import Input from "../components/form/Input";
 import SubmitButton from "../components/form/SubmitButton";
-
+import styles_empresa from "./Login_Empresa.css"
 
 import { useState } from "react";
 
 
-
-function Login_Cliente () {
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function Login_Empresa () {
+  const [userCompany, setuserCompany] = useState("");
+  const [keywordCompany, setkeywordCompany] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log("OIOI",username,password);
+    console.log("OIOI",userCompany,keywordCompany);
 
-    alert("Dados enviados!"+ "Bem-Vindo: "+ username + " Senha:" + password);
+    alert("Dados enviados!"+ "Bem-Vindo: "+ userCompany + " Senha:" + keywordCompany);
   };
 
   return (
     <div className={styles_login.container}>
       <form onSubmit={handleSubmit}>
-        <Banner text="Login Cliente"/>
+        <Banner text="Login Empresa"/>
         <div className={styles.card}>
             <p>
               Login
             </p>
             <input className= {styles_login.inputBlock}
             type="user" 
-            placeholder='Insira seu username'
-            onChange={(e) => setUsername(e.target.value)} />
+            placeholder='Insira seu login empresarial'
+            onChange={(e) => setuserCompany(e.target.value)} />
             <h2>
               Senha
             </h2>
             <input className={styles_login.inputBlock}
-            type="password" 
-            placeholder='senha'
-            onChange={(e) => setPassword(e.target.value)}/>
+            type="keywordCompany" 
+            placeholder='Senha'
+            onChange={(e) => setkeywordCompany(e.target.value)}/>
         </div>
         <div className= {styles_login.recall_forget}>
             <label htmlFor="">
                 <input type="checkbox" />
-                Lembre de mim
+                Salve meus Dados
             </label>
             <a href="#">
               <p>Esqueceu a senha?</p>
@@ -59,13 +57,17 @@ function Login_Cliente () {
 
         <div>
             <p className= {styles_login.signup_link}>
-              Não tem Conta?<a href='/'>Cadastrar</a>
+              Empresa nova?
+              <a href='/'>Cadastrar</a> 
+               // MUDAR ESSE LINK PARA O CADASTRO DE EMPRESA
             </p>
         </div>
 
       </form>
     </div>
   )
+
 }
 
-export default Login_Cliente
+export default Login_Empresa
+
