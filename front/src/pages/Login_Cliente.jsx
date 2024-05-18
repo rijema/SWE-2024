@@ -59,7 +59,7 @@ function Login_Cliente () {
 
         <div>
             <p className= {styles_login.signup_link}>
-              Não tem Conta?<a href='#'>Cadastrar</a>
+              Não tem Conta?<a href='/'>Cadastrar</a>
             </p>
         </div>
 
