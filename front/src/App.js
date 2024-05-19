@@ -4,6 +4,7 @@ import CreateClient from "./pages/CreateClient";
 import UserSerach from "./pages/UserSearch";
 import Login_Cliente from "./pages/Login_Cliente.jsx";
 import Login_Empresa from "./pages/Login_Empresa.jsx";
+import CreateCompany from "./pages/CreateCompany.js";
 
 function App() {
   return (
@@ -12,6 +13,9 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<CreateClient />} />
+        </Routes>
+        <Routes>
+          <Route exact path="/create_company" element={<CreateCompany />} />
         </Routes>
         <Routes>
           <Route exact path="/search" element={<UserSerach />} />

@@ -91,3 +91,12 @@ export const users = [
     birthday: new Date("0826/04/07"),
   },
 ];
+
+export const companies = [
+  {
+    id: 0,
+    name: "Dunder Mifflin",
+    cnpj: "12.345.678/0001-90",
+    phone: "(12) 3456-7890"
+  }
+]

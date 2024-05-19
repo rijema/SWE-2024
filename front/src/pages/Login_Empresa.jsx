@@ -58,8 +58,7 @@ function Login_Empresa () {
         <div>
             <p className= {styles_login.signup_link}>
               Empresa nova?
-              <a href='/'>Cadastrar</a> 
-               // MUDAR ESSE LINK PARA O CADASTRO DE EMPRESA
+              <a href='/create_company'>Cadastrar</a>
             </p>
         </div>
 

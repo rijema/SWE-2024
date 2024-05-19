@@ -1,0 +1,15 @@
+.card {
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto; 
+    border: 2px solid #ccc;
+    border-radius: 30px;
+    text-align: center; 
+}
+  
+.inputContainer {
+    width: 330px;
+    margin: 10px auto; 
+}
