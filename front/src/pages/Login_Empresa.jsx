@@ -52,7 +52,7 @@ function Login_Empresa () {
         </div>
 
         <button className={styles_login.button}>
-          Entrar
+          <a href='/search'>Entrar</a>
           </button>
 
         <div>

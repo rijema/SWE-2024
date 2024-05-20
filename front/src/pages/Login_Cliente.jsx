@@ -28,16 +28,16 @@ function Login_Cliente () {
       <form onSubmit={handleSubmit}>
         <Banner text="Login Cliente"/>
         <div className={styles.card}>
-            <p>
-              Login
+            <p className={styles_login.title}>
+              Login:
             </p>
             <input className= {styles_login.inputBlock}
             type="user" 
             placeholder='Insira seu username'
             onChange={(e) => setUsername(e.target.value)} />
-            <h2>
-              Senha
-            </h2>
+            <p className={styles_login.title}>
+              Senha:
+            </p>
             <input className={styles_login.inputBlock}
             type="password" 
             placeholder='senha'
@@ -54,7 +54,7 @@ function Login_Cliente () {
         </div>
 
         <button className={styles_login.button}>
-          Entrar
+          <a href='/search'>Entrar</a>
           </button>
 
         <div>

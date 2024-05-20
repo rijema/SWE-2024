@@ -71,7 +71,8 @@ function CreateClient() {
               value={birthday || ""}
             />
           </div>
-          <SubmitButton text="Confirmar" />
+          <SubmitButton text="Confirmar" href="/login_client" />
+
         </form>
       </div>
     </div>
