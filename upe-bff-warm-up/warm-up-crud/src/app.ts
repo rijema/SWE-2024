@@ -26,6 +26,7 @@ import { join } from 'path';
 import { authRouter } from './routes/auth';
 import { findUserRouter } from './routes/user/find';
 import { healthcheckRoutes } from './app.constants';
+import { deleteCompanyRouter } from './routes/company/delete';
 
 import { i18n } from './util/i18n';
 
@@ -88,6 +89,7 @@ app.use(findUserRouter);
 app.use(deleteUserRouter);
 app.use(newUserRouter);
 app.use(updateUserRouter);
+app.use(deleteCompanyRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
