@@ -27,6 +27,8 @@ import { authRouter } from './routes/auth';
 import { findUserRouter } from './routes/user/find';
 import { healthcheckRoutes } from './app.constants';
 import { deleteCompanyRouter } from './routes/company/delete';
+import { newCompanyRouter } from './routes/company/new';
+import { updateCompanyRouter } from './routes/company/update';
 
 import { i18n } from './util/i18n';
 
@@ -83,13 +85,17 @@ app.use(authRouter);
 // Interceptor que extrai tenant do Token
 // app.use(tenantInterceptor);
 
-// Endpoints de Negócio
+// Endpoints de Negócio - User
 app.use(listUserRouter);
 app.use(findUserRouter);
 app.use(deleteUserRouter);
 app.use(newUserRouter);
 app.use(updateUserRouter);
+
+// Endpoints de Negócio - Company
 app.use(deleteCompanyRouter);
+app.use(newCompanyRouter);
+app.use(updateCompanyRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
